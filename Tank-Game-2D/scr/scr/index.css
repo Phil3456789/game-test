@@ -1,0 +1,197 @@
+/* stylelint-disable at-rule-no-unknown */
+/* postcss */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 8%;
+    --foreground: 60 10% 90%;
+    
+    --card: 220 20% 12%;
+    --card-foreground: 60 10% 90%;
+    
+    --popover: 220 20% 12%;
+    --popover-foreground: 60 10% 90%;
+    
+    --primary: 145 70% 45%;
+    --primary-foreground: 220 20% 8%;
+    
+    --secondary: 30 90% 50%;
+    --secondary-foreground: 220 20% 8%;
+    
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    
+    --accent: 180 70% 45%;
+    --accent-foreground: 220 20% 8%;
+    
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 60 10% 90%;
+    
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 145 70% 45%;
+    
+    --radius: 0.5rem;
+    
+    /* Game-specific colors */
+    --tank-player1: 145 70% 45%;
+    --tank-player2: 30 90% 50%;
+    --projectile: 60 100% 60%;
+    --wall: 220 15% 25%;
+    --arena-bg: 220 20% 6%;
+    --arena-grid: 220 15% 12%;
+    --health-bar: 0 70% 50%;
+    --health-bar-full: 145 70% 45%;
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 60 10% 90%;
+    --sidebar-primary: 145 70% 45%;
+    --sidebar-primary-foreground: 220 20% 8%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 60 10% 90%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 145 70% 45%;
+  }
+
+  .dark {
+    --background: 220 20% 8%;
+    --foreground: 60 10% 90%;
+    --card: 220 20% 12%;
+    --card-foreground: 60 10% 90%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 60 10% 90%;
+    --primary: 145 70% 45%;
+    --primary-foreground: 220 20% 8%;
+    --secondary: 30 90% 50%;
+    --secondary-foreground: 220 20% 8%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 180 70% 45%;
+    --accent-foreground: 220 20% 8%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 60 10% 90%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 145 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+@layer components {
+  .game-title {
+    @apply text-4xl md:text-6xl font-black tracking-wider;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 
+      0 0 10px hsl(var(--primary) / 0.8),
+      0 0 20px hsl(var(--primary) / 0.6),
+      0 0 40px hsl(var(--primary) / 0.4);
+  }
+  
+  .game-subtitle {
+    @apply text-lg md:text-xl tracking-widest uppercase;
+    font-family: 'Orbitron', sans-serif;
+    color: hsl(var(--secondary));
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.6);
+  }
+  
+  .game-panel {
+    @apply bg-card/80 backdrop-blur-sm border border-border rounded-lg p-4;
+    box-shadow: 
+      inset 0 1px 0 hsl(var(--foreground) / 0.05),
+      0 4px 20px hsl(var(--background) / 0.5);
+  }
+  
+  .score-display {
+    @apply text-2xl md:text-3xl font-bold tabular-nums;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  .player1-color {
+    color: hsl(var(--tank-player1));
+    text-shadow: 0 0 10px hsl(var(--tank-player1) / 0.6);
+  }
+  
+  .player2-color {
+    color: hsl(var(--tank-player2));
+    text-shadow: 0 0 10px hsl(var(--tank-player2) / 0.6);
+  }
+  
+  .control-key {
+    @apply inline-flex items-center justify-center min-w-[2rem] h-8 px-2 rounded bg-muted border border-border text-sm font-mono;
+  }
+  
+  .health-bar {
+    @apply h-3 rounded-full overflow-hidden bg-muted;
+  }
+  
+  .health-bar-fill {
+    @apply h-full transition-all duration-300 ease-out;
+    background: linear-gradient(90deg, hsl(var(--health-bar)), hsl(var(--health-bar-full)));
+  }
+  
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .scanline {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--background) / 0.03) 2px,
+      hsl(var(--background) / 0.03) 4px
+    );
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .text-glow-primary {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.6);
+  }
+  
+  .text-glow-secondary {
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.6);
+  }
+  
+  .box-glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  
+  .box-glow-secondary {
+    box-shadow: 0 0 20px hsl(var(--secondary) / 0.3);
+  }
+}
